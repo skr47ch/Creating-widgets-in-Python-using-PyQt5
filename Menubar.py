@@ -27,26 +27,45 @@ class Example(QMainWindow):
         new_folder = QAction('Add new folder...', self)
         new_folder.triggered.connect(self.show_dialogue)
         lib_folders.addAction(new_folder)
-
         file_menu.addAction('Scan available episodes')
-
         file_menu.addSeparator()
-
         next_episode = QAction('Play next episode', self)
         next_episode.setShortcut('Ctrl+N')
         file_menu.addAction(next_episode)
-
         random_anime = QAction('Play random anime',  self)
         random_anime.setShortcut('Ctrl+R')
         file_menu.addAction(random_anime)
-
         file_menu.addSeparator()
-
         exit_action = QAction('Exit', self)
         exit_action.setStatusTip('Exit  Program')
         exit_action.triggered.connect(qApp.quit)
-
         file_menu.addAction(exit_action)
+
+        # Services menu items
+        synchronize = QAction('Synchronize list', self)
+        synchronize.setShortcut('Ctrl+S')
+        services_menu.addAction(synchronize)
+        services_menu.addSeparator()
+        anilist = services_menu.addMenu('Anilist')
+        anilist.addAction('Go to my profile')
+        anilist.addAction('Go to my stats')
+        kitsu = services_menu.addMenu('Kitsu')
+        kitsu.addAction('Go to my feed')
+        kitsu.addAction('Go to my library')
+        kitsu.addAction('Go to my profile')
+        mal = services_menu.addMenu('MyAnimeList')
+        mal.addAction('Go to my panel')
+        mal.addAction('Go to my profile')
+        mal.addAction('Go to my history')
+
+        # Tools menu items
+        export_anime = tool_menu.addMenu('Export anime list')
+        export_anime.addAction('Export as markdown')
+        export_anime.addAction('Export as MyAnimeList XML...')
+        ext_links = tool_menu.addMenu('External links')
+        ext_links.addAction('Hibari')
+        ext_links.addAction('MALgraph')
+        tool_menu.addSeparator()
 
     def show_dialogue(self):
         QFileDialog.getOpenFileName(self, 'Add a library folder', 'C:/Users/skr47ch/Documents')
