@@ -67,6 +67,8 @@ class Example(QMainWindow):
         ext_links.addAction('MALgraph')
         tool_menu.addSeparator()
 
+        # View menu items
+
     def show_dialogue(self):
         QFileDialog.getOpenFileName(self, 'Add a library folder', 'C:/Users/skr47ch/Documents')
 
