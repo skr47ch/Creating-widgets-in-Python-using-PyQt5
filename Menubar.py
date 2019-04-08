@@ -1,5 +1,7 @@
 import sys
-from PyQt5.QtWidgets import (QApplication, QMainWindow, qApp, QAction, QFileDialog)
+from PyQt5.QtWidgets import (QApplication, QMainWindow,
+                             qApp, QAction, QFileDialog,
+                             QActionGroup)
 
 
 class Example(QMainWindow):
@@ -65,9 +67,35 @@ class Example(QMainWindow):
         ext_links = tool_menu.addMenu('External links')
         ext_links.addAction('Hibari')
         ext_links.addAction('MALgraph')
+        ext_links.addSeparator()
+        ext_links.addAction('Anichart')
+        ext_links.addAction('Monthly.moe')
+        ext_links.addAction('Senpai Anime Charts')
+        ext_links.addSeparator()
+        ext_links.addAction('Anime Streaming Search Engine')
+        ext_links.addAction('The Fansub Database')
         tool_menu.addSeparator()
+        enable_recognition = QAction('Enable anime recognition', self)
+        enable_recognition.setCheckable(True)
+        tool_menu.addAction(enable_recognition)
+        enable_sharing = QAction('Enable auto sharing', self)
+        enable_sharing.setCheckable(True)
+        tool_menu.addAction(enable_sharing)
+        enable_sync = QAction('Enable auto synchronization', self)
+        enable_sync.setCheckable(True)
+        tool_menu.addAction(enable_sync)
+        tool_menu.addSeparator()
+        tool_menu.addAction('Settings')
 
         # View menu items
+        radio = QActionGroup(self)
+        radio.setExclusive(True)
+        hello = radio.addAction('Hello')
+        hello.setCheckable(True)
+        hello2 = radio.addAction('Hello2')
+        hello2.setChecked(True)
+        view_menu.addAction(hello)
+        view_menu.addAction(hello2)
 
     def show_dialogue(self):
         QFileDialog.getOpenFileName(self, 'Add a library folder', 'C:/Users/skr47ch/Documents')
