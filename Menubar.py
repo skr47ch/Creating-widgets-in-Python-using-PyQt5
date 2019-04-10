@@ -1,7 +1,7 @@
 import sys
 from PyQt5.QtWidgets import (QApplication, QMainWindow,
                              qApp, QAction, QFileDialog,
-                             QActionGroup)
+                             QActionGroup, QCheckBox)
 
 
 class Example(QMainWindow):
@@ -88,14 +88,46 @@ class Example(QMainWindow):
         tool_menu.addAction('Settings')
 
         # View menu items
-        radio = QActionGroup(self)
-        radio.setExclusive(True)
-        hello = radio.addAction('Hello')
-        hello.setCheckable(True)
-        hello2 = radio.addAction('Hello2')
-        hello2.setChecked(True)
-        view_menu.addAction(hello)
-        view_menu.addAction(hello2)
+        view_radio_group = QActionGroup(self)
+        view_radio_group.setExclusive(True)
+
+        view_now_playing = view_radio_group.addAction('Now Playing')
+        view_now_playing.setCheckable(True)
+        view_now_playing.setChecked(True)
+        view_menu.addAction(view_now_playing)
+
+        view_animelist = view_radio_group.addAction('Anime List')
+        view_animelist.setCheckable(True)
+        view_menu.addAction(view_animelist)
+
+        view_history = view_radio_group.addAction('History')
+        view_history.setCheckable(True)
+        view_menu.addAction(view_history)
+
+        view_statistics = view_radio_group.addAction('Statistics')
+        view_statistics.setCheckable(True)
+        view_menu.addAction(view_statistics)
+
+        view_search = view_radio_group.addAction('Search')
+        view_search.setCheckable(True)
+        view_menu.addAction(view_search)
+
+        view_seasons = view_radio_group.addAction('Seasons')
+        view_seasons.setCheckable(True)
+        view_menu.addAction(view_seasons)
+
+        view_torrents = view_radio_group.addAction('Torrents')
+        view_torrents.setCheckable(True)
+        view_menu.addAction(view_torrents)
+
+        view_menu.addSeparator()
+
+        view_sidebar = QAction('Show sidebar', self)
+        view_sidebar.setCheckable(True)
+        view_sidebar.setChecked(True)
+        view_menu.addAction(view_sidebar)
+
+        # Help menu items
 
     def show_dialogue(self):
         QFileDialog.getOpenFileName(self, 'Add a library folder', 'C:/Users/skr47ch/Documents')
