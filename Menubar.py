@@ -1,7 +1,7 @@
 import sys
 from PyQt5.QtWidgets import (QApplication, QMainWindow,
                              qApp, QAction, QFileDialog,
-                             QActionGroup, QCheckBox)
+                             QActionGroup, QDialog)
 
 
 class Example(QMainWindow):
@@ -90,47 +90,52 @@ class Example(QMainWindow):
         # View menu items
         view_radio_group = QActionGroup(self)
         view_radio_group.setExclusive(True)
-
         view_now_playing = view_radio_group.addAction('Now Playing')
         view_now_playing.setCheckable(True)
         view_now_playing.setChecked(True)
         view_menu.addAction(view_now_playing)
-
         view_animelist = view_radio_group.addAction('Anime List')
         view_animelist.setCheckable(True)
         view_menu.addAction(view_animelist)
-
         view_history = view_radio_group.addAction('History')
         view_history.setCheckable(True)
         view_menu.addAction(view_history)
-
         view_statistics = view_radio_group.addAction('Statistics')
         view_statistics.setCheckable(True)
         view_menu.addAction(view_statistics)
-
         view_search = view_radio_group.addAction('Search')
         view_search.setCheckable(True)
         view_menu.addAction(view_search)
-
         view_seasons = view_radio_group.addAction('Seasons')
         view_seasons.setCheckable(True)
         view_menu.addAction(view_seasons)
-
         view_torrents = view_radio_group.addAction('Torrents')
         view_torrents.setCheckable(True)
         view_menu.addAction(view_torrents)
-
         view_menu.addSeparator()
-
         view_sidebar = QAction('Show sidebar', self)
         view_sidebar.setCheckable(True)
         view_sidebar.setChecked(True)
         view_menu.addAction(view_sidebar)
 
         # Help menu items
+        about = QAction('About Taiga', self)
+        about.triggered.connect(self.show_about_page)
+        help_menu.addAction(about)
+        help_menu.addAction('Support')
+        help_menu.addSeparator()
+        help_menu.addAction('Check for updates')
 
     def show_dialogue(self):
+        """Opens a file dialogue to browse to a file location"""
         QFileDialog.getOpenFileName(self, 'Add a library folder', 'C:/Users/skr47ch/Documents')
+
+    @staticmethod
+    def show_about_page():
+        """About Page for the application"""
+        about_page = QDialog()
+        about_page.setWindowTitle('About Taiga')
+        about_page.exec_()
 
 
 if __name__ == "__main__":
