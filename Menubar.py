@@ -1,4 +1,6 @@
 import sys
+from functools import partial
+import external_links as links
 from PyQt5.QtWidgets import (QApplication, QMainWindow,
                              qApp, QAction, QFileDialog,
                              QActionGroup, QDialog)
@@ -10,20 +12,15 @@ class Example(QMainWindow):
         self.setWindowTitle("NiseTaiga - skr47ch")
         self.statusBar().showMessage("This is a status bar")
         self.setGeometry(50, 50, 400, 200)
-        self.create_menu()
+        self.menu_bar = self.menuBar()
+        self.menu_file()
+        self.menu_services()
+        self.menu_tools()
+        self.menu_view()
+        self.menu_help()
 
-    def create_menu(self):
-        """Creates the menu bar and its  sub-menus"""
-
-        menu_bar = self.menuBar()
-
-        # Main menu items
-        file_menu = menu_bar.addMenu('File')
-        services_menu = menu_bar.addMenu('Services')
-        tool_menu = menu_bar.addMenu('Tool')
-        view_menu = menu_bar.addMenu('View')
-        help_menu = menu_bar.addMenu('Help')
-
+    def menu_file(self):
+        file_menu = self.menu_bar.addMenu('File')
         # File menu items
         lib_folders = file_menu.addMenu('Library Folders')
         new_folder = QAction('Add new folder...', self)
@@ -34,7 +31,7 @@ class Example(QMainWindow):
         next_episode = QAction('Play next episode', self)
         next_episode.setShortcut('Ctrl+N')
         file_menu.addAction(next_episode)
-        random_anime = QAction('Play random anime',  self)
+        random_anime = QAction('Play random anime', self)
         random_anime.setShortcut('Ctrl+R')
         file_menu.addAction(random_anime)
         file_menu.addSeparator()
@@ -43,7 +40,9 @@ class Example(QMainWindow):
         exit_action.triggered.connect(qApp.quit)
         file_menu.addAction(exit_action)
 
-        # Services menu items
+    def menu_services(self):
+        services_menu = self.menu_bar.addMenu('Services')
+
         synchronize = QAction('Synchronize list', self)
         synchronize.setShortcut('Ctrl+S')
         services_menu.addAction(synchronize)
@@ -60,20 +59,28 @@ class Example(QMainWindow):
         mal.addAction('Go to my profile')
         mal.addAction('Go to my history')
 
-        # Tools menu items
+    def menu_tools(self):
+        tool_menu = self.menu_bar.addMenu('Tool')
+
         export_anime = tool_menu.addMenu('Export anime list')
         export_anime.addAction('Export as markdown')
         export_anime.addAction('Export as MyAnimeList XML...')
+
         ext_links = tool_menu.addMenu('External links')
-        ext_links.addAction('Hibari')
-        ext_links.addAction('MALgraph')
-        ext_links.addSeparator()
-        ext_links.addAction('Anichart')
-        ext_links.addAction('Monthly.moe')
-        ext_links.addAction('Senpai Anime Charts')
-        ext_links.addSeparator()
-        ext_links.addAction('Anime Streaming Search Engine')
-        ext_links.addAction('The Fansub Database')
+        hibari, malgraph, anichart, monthly_moe, senpai_anime_charts, anime_streaming_search_engine, the_fansub_database = None, None, None, None, None, None, None
+
+        var_list = [hibari, malgraph, anichart, monthly_moe, senpai_anime_charts, anime_streaming_search_engine, the_fansub_database]
+        var_labels = ['Hibari', 'MALGraph', 'Anichart', 'Monthly.moe', 'Senpai Anime Charts', 'Anime Streaming Search Engine', 'The Fansub Database']
+        var_links = ['hibari', 'malgraph', 'anichart', 'monthly_moe', 'senpai_anime_charts', 'anime_streaming_search_engine', 'the_fansub_database']
+
+        for var, label, link in zip(var_list, var_labels, var_links):
+            var = QAction(label, self)
+            var.triggered.connect(partial(links.OpenLink, link))
+            ext_links.addAction(var)
+
+        ext_links.insertSeparator(ext_links.actions()[2])
+        ext_links.insertSeparator(ext_links.actions()[6])
+
         tool_menu.addSeparator()
         enable_recognition = QAction('Enable anime recognition', self)
         enable_recognition.setCheckable(True)
@@ -87,7 +94,9 @@ class Example(QMainWindow):
         tool_menu.addSeparator()
         tool_menu.addAction('Settings')
 
-        # View menu items
+    def menu_view(self):
+        view_menu = self.menu_bar.addMenu('View')
+
         view_radio_group = QActionGroup(self)
         view_radio_group.setExclusive(True)
         view_now_playing = view_radio_group.addAction('Now Playing')
@@ -118,7 +127,9 @@ class Example(QMainWindow):
         view_sidebar.setChecked(True)
         view_menu.addAction(view_sidebar)
 
-        # Help menu items
+    def menu_help(self):
+        help_menu = self.menu_bar.addMenu('Help')
+
         about = QAction('About Taiga', self)
         about.triggered.connect(self.show_about_page)
         help_menu.addAction(about)
