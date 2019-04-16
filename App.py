@@ -1,5 +1,6 @@
 import sys
-from PyQt5.QtWidgets import QMainWindow, QApplication, QFrame, QDesktopWidget
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
 import Menubar
 
 MENU_HEIGHT = 25
@@ -25,10 +26,11 @@ class App(QMainWindow):
         Menubar.create_menu(menu_bar)
 
         # Top Ribbon
-        ribbon = QFrame(self)
-        ribbon.move(0, MENU_HEIGHT)
-        ribbon.resize(window_size.width(), RIBBON_HEIGHT)
-        ribbon.setStyleSheet('background-color: gray')
+        self.ribbon = QFrame(self)
+        self.ribbon.move(0, MENU_HEIGHT)
+        self.ribbon.resize(window_size.width(), RIBBON_HEIGHT)
+        # self.ribbon.setStyleSheet('background-color: gray')
+        self.create_ribbon()
 
         # Left Pane
         left = QFrame(self)
@@ -41,6 +43,27 @@ class App(QMainWindow):
         right.move(PANEL_WIDTH, RIBBON_HEIGHT+MENU_HEIGHT)
         right.resize(window_size.width(), window_size.height())
         right.setStyleSheet('background-color: pink')
+
+    def create_ribbon(self):
+        sync_list = QLabel(self.ribbon)
+        sync_list.setPixmap(QPixmap('arrow-circle-double-135.png').scaled(26,26))
+        sync_list.move(8,7)
+
+        separator_1 = QFrame(self.ribbon)
+        # separator_1.setStyleSheet('background-color: green')
+        separator_1.setFrameShape(QFrame.VLine)
+        separator_1.setFrameShadow(QFrame.Raised)
+        separator_1.move(-9, 5)
+
+        # shape = QFrame.Q
+        # separator_2 = QFrame.setFrameShape()
+
+        lib_folders = QLabel(self.ribbon)
+        lib_folders.setPixmap(QPixmap('folder-open.png').scaled(26,26))
+        lib_folders.move(50, 7)
+
+
+
 
 def main():
     app = QApplication([sys.argv])
